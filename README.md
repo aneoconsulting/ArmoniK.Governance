@@ -1,4 +1,4 @@
-# ArmoniK Community 
+# ArmoniK Community
 
 All our ways of working and our good practices.
 
