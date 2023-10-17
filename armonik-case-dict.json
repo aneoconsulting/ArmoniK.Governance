@@ -1,0 +1,13 @@
+{
+    "armonik.api":"ArmoniK.Api",
+    "armonik.extensions.csharp":"ArmoniK.Extensions.Csharp",
+    "armonik.extensions.cpp":"ArmoniK.Extensions.Cpp",
+    "armonik.community":"ArmoniK.Community",
+    "armonik.admin.gui":"ArmoniK.Admin.GUI",
+    "armonik.admin.cli":"ArmoniK.Admin.CLI",
+    "armonik.core":"ArmoniK.Core",
+    "armonik.utils":"ArmoniK.Utils",
+    "aneo":"Aneo",
+    "grpc":"gRPC",
+    "armonik":"ArmoniK"
+}
