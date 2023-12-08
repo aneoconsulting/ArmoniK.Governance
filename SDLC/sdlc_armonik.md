@@ -89,4 +89,4 @@ In the maintenance phase of ArmoniK's SDLC, which is dedicated to handling bugs 
 
 ### Reporting New Bugs
 
-When a new bug is detected during this phase, the way to resolve it is by creating a corresponding 'issue' in the system. This issue is then linked to this specific paragraph in the technical documentation [Implementation](#Implementation). This reinitiates SDLC process, allowing developers and contributors involved in maintenance to access this issue on GitHub, understand the problem, and collaborate to resolve the bug. This collaborative approach ensures an effective resolution of detected bug.
+When a new bug is detected during this phase, the way to resolve it is by creating a corresponding 'issue' in the system. This issue is then linked to this specific paragraph in the technical documentation [Implementation](#implementation). This reinitiates SDLC process, allowing developers and contributors involved in maintenance to access this issue on GitHub, understand the problem, and collaborate to resolve the bug. This collaborative approach ensures an effective resolution of detected bug.
