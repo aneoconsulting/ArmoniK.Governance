@@ -72,10 +72,10 @@ variable "control_plane_mount_cm" {
         path      = string
         subpath   = optional(string)
         mode      = optional(string, "644")
-        items = map(object({
+        items = optional(map(object({
             mode  = optional(string, "644")
             field = string
-        }))
+        })), {})
     }))
     default = {}
 }
@@ -87,10 +87,10 @@ variable "control_plane_mount_secret" {
         path    = string
         subpath = optional(string)
         mode    = optional(string, "644")
-        items = map(object({
+        items = optional(map(object({
             mode  = optional(string, "644")
             field = string
-        }))
+        })), {})
     }))
     default = {}
     // Example:
