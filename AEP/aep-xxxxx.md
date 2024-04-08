@@ -1,4 +1,33 @@
-ArmoniK inputs (from storage module outputs)
+# AEP X: ArmoniK Infrastructure redesign
+
+|                   |ArmoniK Enhancement Proposal|
+---:                |:---
+**AEP**             | 
+**Title**           | ArmoniK Infrastructure redesign
+**Author**          | 
+**Status**          | Draft
+**Type**            | Standard
+**Creation Date**   | 2024-03-04
+
+
+# Abstract
+
+This AEP describes the choice and give a global view to redesign ArmoniK's infrastructure.
+
+# Motivation
+
+The motivation behind the redesign of the infrastructure is to have an infrastructure that is light, modular and easy to maintain. By standardizing the expected outputs for the various modules, the switch between one technology vendor to another one will be made easy. 
+
+
+# Rationale
+
+Updating or proposing alternatives solution for various component with the current infrastructure is challenging at time. 
+
+# Specifications
+
+First we define the input variables that are expected from Armonik. This is the output provided by the modules. These variables are environment variables. Kubernetes defines 3 ways to poupulate these viarbles: using environment variable methods, config maps, secret, and mount from envir
+
+## ArmoniK inputs (from storage module outputs)
 
 ```tf
 variable "control_plane_env" {
