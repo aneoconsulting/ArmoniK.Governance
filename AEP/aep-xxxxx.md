@@ -16,7 +16,7 @@ This AEP describes the choice and give a global view to redesign ArmoniK's infra
 
 # Motivation
 
-The motivation behind the redesign of the infrastructure is to have an infrastructure that is light, modular and easy to maintain. By standardizing the expected outputs for the various modules, the switch between one technology vendor to another one will be made easy. 
+The motivation behind the redesign of the infrastructure is to have an infrastructure that is light, modular and easy to maintain. By standardizing the expected outputs for the various modules, the switch between one technology vendor to another one will be made easy.
 
 
 # Rationale
@@ -25,7 +25,42 @@ Updating or proposing alternatives solution for various component with the curre
 
 # Specifications
 
-First we define the input variables that are expected from Armonik. This is the output provided by the modules. These variables are environment variables. Kubernetes defines 3 ways to poupulate these viarbles: using environment variable methods, config maps, secret, and mount from envir
+First, we define the input variables that are expected from Armonik. This is the output provided by the modules. These variables are referred to as environment variables. Kubernetes defines three ways to populate these variables: using environment variable methods, config maps, secret, and mount from environment.
+
+## Approach
+
+Our approach is to have an infrastructure built on a modular basis.  We will first define all the modules needed by Armonik. 
+We distinguish the components Armonik needs to work (for example a mongoDB database) lets call them external and the components that are part of ArmoniK (such as compute plane) internal. 
+
+The internal components modules depend on external components ones to work or to be built.
+
+
+Modules outputs ---> ArmoniK 
+
+```mermaid
+    graph LR
+    A[External module 1] -- outputs --> B(Armonik)
+    C[External module ...] -- outputs --> B
+    D[External module n] -- outputs --> B
+
+```
+
+It is important to note that internal components require a specific format for the information they need. Therefore, it is essential to define and specify these requirements for each external module. As an example, the compute plane requires information from the activeMQ module, as outlined below:
+
+```tf
+    "Components__QueueAdaptorSettings__ClassName"           = "ArmoniK.Core.Adapters.Amqp.QueueBuilder"
+    "Components__QueueAdaptorSettings__AdapterAbsolutePath" = "/adapters/queue/amqp/ArmoniK.Core.Adapters.Amqp.dll"
+    "Amqp__User"                                            = ""
+    "Amqp__Password"                                        = ""
+    "Amqp__Host"                                            = ""
+    "Amqp__Port"                                            = ""
+    "Amqp__Scheme"                                          = "AMQP"
+    "Amqp__MaxPriority"                                     = ""
+    "Amqp__MaxRetries"                                      = ""
+    "Amqp__LinkCredit"                                      = ""
+
+```
+The internal module will then acts as a consumer of the various outputs from external modules. 
 
 ## ArmoniK inputs (from storage module outputs)
 
@@ -153,3 +188,111 @@ variable "control_plane_mount_volume_claim" {
     type = ToBeDefined
 }
 ```
+
+
+Three components are part of the Armonik Core and are those consuming the outputs. 
+
+control-plane
+
+compute-plane
+- polling-agent
+- worker
+
+metrics-exporter
+
+## Component outputs
+
+Component outputs will be something like that:
+
+```tf
+# optional
+output "env" {
+  value = {
+    VARIABLE_NAME = "value"
+  }
+}
+
+# optional
+output "env_configmap" {
+  value = [
+    "component-cm",
+  ]
+}
+
+# env_secret like env_configmap
+
+# optional
+output "env_from_configmap" {
+  value = {
+    VARIABLE_NAME = {
+      configmap = "component-cm"
+      field = "field-within-cm"
+    }
+  }
+}
+
+# env_from_secret like env_from_configmap
+
+# optional
+output "mount_configmap" {
+  value = {
+    "mount-name" = {
+      configmap = "component-cm"
+      path = "/path/within/pod"
+      subpath = "subpath/in/cm" # optional
+      mode = "600" # optional
+      items = { # optional
+        "file" = {
+           mode = "600" # optional
+           field = "field-within-cm"
+        }
+      }
+    }
+  }
+}
+
+# mount_secret like mount_configmap
+
+# optional
+output "mount_volume" {
+  value = ToBeDefined
+}
+
+# optional
+output "mount_volume_claim" {
+  value = ToBeDefined
+}
+```
+
+## Modules passing to the ArmoniK module
+
+
+```tf
+module "armonik" {
+  source = "path/to/armonik"
+
+  control_plane = {
+    ...
+    conf = [ module.activemq, module.s3, module.mongodb ]
+  }
+
+  metrics_exporter = {
+    ...
+    conf = [ module.mongodb ]
+  }
+
+  ...
+}
+```
+# Backwards Compatibility
+
+This infrastrure redesign should be compatible with previous version of ArmoniK (Core, API, ...).
+
+# How to Teach This
+
+A document will be deliver on how to integrate a new module in the infrastructure so that it can be used. 
+
+
+# Copyright
+
+This document is placed in the public domain or under the CC0-1.0-Universal license, whichever is more permissive.
