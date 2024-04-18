@@ -17,7 +17,7 @@
     "nuxt": "^3.5.3"
   },
   "devDependencies": {
-    "@nuxt/eslint-config": "^0.1.1",
+    "@nuxt/eslint-config": "^0.3.8",
     "case-police": "^0.6.1",
     "eslint": "^9.0.0",
     "markdownlint-cli": "^0.34.0"
