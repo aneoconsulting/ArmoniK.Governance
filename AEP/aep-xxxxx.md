@@ -65,6 +65,19 @@ The internal module will then acts as a consumer of the various outputs from ext
 ## ArmoniK inputs (from storage module outputs)
 
 ```tf
+variable "control_plane" {
+  type = object({
+    // ...
+    conf = optional(list(object({
+      env = optional(map(string), {})
+      env_configmap = optional(set(string), [])
+      env_from_configmap = optional(map(object({
+        configmap = string
+        field  = string
+    })), {})
+    })), [])
+  })
+}
 variable "control_plane_env" {
     description = "Environment variables to pass to the control plane"
     type        = map(string)
