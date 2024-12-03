@@ -22,4 +22,12 @@ export default defineNuxtConfig({
       siteDescription: 'All our ways of working and our good practices.',
     }
   },
+
+  robots: { 
+    robotsTxt: false
+  },
+
+  ogImage: {
+    enabled: false,
+  }
 })
